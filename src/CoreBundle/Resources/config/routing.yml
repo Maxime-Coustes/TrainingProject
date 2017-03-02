@@ -1,3 +1,16 @@
+# Note : If you mind adding a new route orediting an existing one, please follow this configuration to make it more
+# readable for future developers :
+# -----------------------------------------------------------------------------------------------------------------
+# Name of the page/route
+# -------------------------------------------
+# route_name:
+#     path: /route/path
+#     defaults: { _controller: AppBundle:Controller:Method }
+
+
+# Homepage
+# -------------------------------------------
 core_homepage:
-    path:     /
-    defaults: { _controller: CoreBundle:Default:index }
+    path: /
+    defaults: { _controller: CoreBundle:Homepage:index}
+
