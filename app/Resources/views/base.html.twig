@@ -3,14 +3,23 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}My blog !{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('bundles/core/css/bootstrap/bootstrap.min.css') }}" type="text/css" />
+        {% endblock %}
     </head>
     <body>
         {% block header %}
             {% include '@Core/header/header.html.twig' %}
         {% endblock %}
-        {% block body %}{% endblock %}
+        <div class="container">
+            {% block pageTitle %}{% endblock %}
+            {% block body %}{% endblock %}
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="{{ asset('bundles/core/js/bootstrap/bootstrap.min.js') }}" type="application/javascript"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

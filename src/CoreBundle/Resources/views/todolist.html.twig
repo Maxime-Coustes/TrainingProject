@@ -1,0 +1,79 @@
+{% extends '::base.html.twig' %}
+
+{% block pageTitle %}
+    {% include '@Core/pageTitle/pageTitle.html.twig' with {'page' : "Todolist :"} %}
+{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fonctionnalité</th>
+                <th>Numéro du lot</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    Création des entités
+                </td>
+                <td>
+                    <strong>
+                        1
+                    </strong>
+                </td>
+                <td>
+                    Créer tout le mapping de l'application : <br />
+                    1. Créer le MPD ( --> Chercher Doc' ). L'application doit avoir principalement : <br />
+                    Je te laisse imaginer comment tu comptes créer la BDD, donc fais-le à l'instinct.
+                    2. Une fois le MPD crée, me l'envoyer par mail pour que je regarde rapidement, que l'on parte tous les deux sur une base commune. <br />
+                    3. Créer les entités sur Symfony, effectuer également le mapping adéquat ( /!\ ATTENTION /!\ : La commande "php bin/console doctrine:schema:validate" ne doit pas renvoyer d'erreur. )
+                    4. Mettre à jour la Base de Données et fais un export de la Base, puis me l'envoyer
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Création de données factices
+                </td>
+                <td>
+                    <strong>
+                        1
+                    </strong>
+                </td>
+                <td>
+                    Création de données factices afin de pouvoir une base remplie de quelques données.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Affichage des catégories de forum
+                </td>
+                <td>
+                    <strong>
+                        1
+                    </strong>
+                </td>
+                <td>
+                    Afficher les différentes catégories principales lorsque je clic sur "Forum". <br />
+                    /!\ Gérer le cas ou il n'y a aucune catégorie (Je clic sur "Forum", je n'ai pas de catégorie, je ne peux pas rester sur page blanche...) <br />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Templating / Code
+                </td>
+                <td>
+                    <strong>
+                        Général
+                    </strong>
+                </td>
+                <td>
+                    Toute l'application sera basé sur du Bootstrap 3. Les fichiers nécéssaires au bon fonctionnement de Bootstrap sont déjà importés. <br />
+                    /!\ Faire du code propre et lisible, ou à défaut, ne pas faire du code spaghetti. /!\ <br />
+                    N'écrire du code HTML seulement avec des blocks Bootstrap (sauf en cas de nécéssité).
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

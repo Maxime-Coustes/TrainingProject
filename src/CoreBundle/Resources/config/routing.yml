@@ -7,10 +7,22 @@
 #     path: /route/path
 #     defaults: { _controller: AppBundle:Controller:Method }
 
-
 # Homepage
 # -------------------------------------------
 core_homepage:
     path: /
-    defaults: { _controller: CoreBundle:Homepage:index}
+    defaults: { _controller: CoreBundle:Homepage:index }
+
+# Todolist
+# -------------------------------------------
+core_todolist:
+    path: /todolist
+    defaults: { _controller: CoreBundle:Todolist:index }
+
+# Forum - Index page
+# -------------------------------------------
+core_forum_index:
+    path: /forum
+    defaults: { _controller: CoreBundle:Forum:index }
+
 

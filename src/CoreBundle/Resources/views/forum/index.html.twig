@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block pageTitle %}
+    {% include '@Core/pageTitle/pageTitle.html.twig' with {'page' : "Page d'accueil du forum"} %}
+{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+        <tr>
+        </tr>
+        </thead>
+        <tbody>
+            {% for i in 0..5 %}
+                    <tr>
+                        <td>
+                            <a href="#LienVersLesTopicDeLaCatégorie">
+                                Sport
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#LienVersLesTopicDeLaCatégorie">
+                                Ici, on parle de sport !
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#LienVersLesTopicDeLaCatégorie">
+                                Dernier message posté le : 23/12/2007 à 23:30
+                            </a>
+                        </td>
+                    </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
