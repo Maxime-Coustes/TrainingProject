@@ -1,0 +1,24 @@
+CoreBundle\Entity\Images:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\ImagesRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        chemin:
+            type: string
+            length: 255
+        nom:
+            type: string
+            length: 255
+
+    lifecycleCallbacks: {  }
+
+    oneToMany:
+        articleAffilie:
+            targetEntity: CoreBundle\Entity\Articles
+            mappedBy: images  #nom porté dans l'autre entité

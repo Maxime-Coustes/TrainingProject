@@ -1,0 +1,92 @@
+<?php
+
+namespace CoreBundle\Entity;
+
+/**
+ * Images
+ */
+class Images
+{
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $chemin;
+
+    /**
+     * @var string
+     */
+    private $nom;
+
+    /**
+     * @var string
+     */
+    private $articleAffilie;
+
+
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set chemin
+     *
+     * @param string $chemin
+     *
+     * @return Images
+     */
+    public function setChemin($chemin)
+    {
+        $this->chemin = $chemin;
+
+        return $this;
+    }
+
+    /**
+     * Get chemin
+     *
+     * @return string
+     */
+    public function getChemin()
+    {
+        return $this->chemin;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Images
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+}
+

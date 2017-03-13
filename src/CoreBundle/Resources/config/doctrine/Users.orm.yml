@@ -1,0 +1,33 @@
+CoreBundle\Entity\Users:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\UsersRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        username:
+            type: string
+            length: 255
+        mail:
+            type: string
+            length: 255
+        password:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
+
+    oneToMany:
+        articles: #variable définie dans cette entité pour cette relation
+            targetEntity: CoreBundle\Entity\Articles
+            mappedBy: users  #nom porté dans l'autre entité
+
+    manyToOne:
+        categories:
+            targetEntity: CoreBundle\Entity\Categories
+            inversedBy: users
+
+

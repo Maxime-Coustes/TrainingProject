@@ -1,0 +1,48 @@
+CoreBundle\Entity\Articles:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\ArticlesRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        nom:
+            type: string
+            length: 255
+        date:
+            type: datetime
+            length: 255
+        contenu:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
+
+    manyToOne:
+        images:
+            targetEntity: CoreBundle\Entity\Images
+            inversedBy: articleAffilie
+        users:
+            targetEntity: CoreBundle\Entity\Users
+            inversedBy: articles
+
+#            joinColumn:
+#                name: articles_id
+#                referencedColumnName: id
+
+
+    manyToMany:
+        typeArticle:
+            targetEntity: CoreBundle\Entity\TypeArticle
+            inversedBy: articles
+#            joinTable:
+#                name: articles_typeArticles
+#                joinColumns:
+#                    article_id:
+#                        referencedColumnName: id
+#                inverseJoinColumns:
+#                    typeArticles_id:
+#                        referencedColumnName: id
+#join table et join column ne servent que pour le custom, il n'est pas nécessaire

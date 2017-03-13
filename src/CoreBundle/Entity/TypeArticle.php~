@@ -1,0 +1,59 @@
+<?php
+
+namespace CoreBundle\Entity;
+
+/**
+ * TypeArticle
+ */
+class TypeArticle
+{
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $kindof;
+
+    /**
+     * @var string
+     */
+    private $articles;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set kindof
+     *
+     * @param string $kindof
+     *
+     * @return TypeArticle
+     */
+    public function setKindof($kindof)
+    {
+        $this->kindof = $kindof;
+
+        return $this;
+    }
+
+    /**
+     * Get kindof
+     *
+     * @return string
+     */
+    public function getKindof()
+    {
+        return $this->kindof;
+    }
+}

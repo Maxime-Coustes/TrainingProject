@@ -1,0 +1,21 @@
+CoreBundle\Entity\TypeArticle:
+    type: entity
+    table: null
+    repositoryClass: CoreBundle\Repository\TypeArticleRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        kindof:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
+
+
+    manyToMany:
+        articles:
+            targetEntity: CoreBundle\Entity\Articles
+            mappedBy: typeArticle
