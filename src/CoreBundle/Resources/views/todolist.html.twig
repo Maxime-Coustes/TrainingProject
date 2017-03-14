@@ -16,24 +16,6 @@
         <tbody>
             <tr>
                 <td>
-                    Création des entités
-                </td>
-                <td>
-                    <strong>
-                        1
-                    </strong>
-                </td>
-                <td>
-                    Créer tout le mapping de l'application : <br />
-                    1. Créer le MPD ( --> Chercher Doc' ). L'application doit avoir principalement : <br />
-                    Je te laisse imaginer comment tu comptes créer la BDD, donc fais-le à l'instinct.
-                    2. Une fois le MPD crée, me l'envoyer par mail pour que je regarde rapidement, que l'on parte tous les deux sur une base commune. <br />
-                    3. Créer les entités sur Symfony, effectuer également le mapping adéquat ( /!\ ATTENTION /!\ : La commande "php bin/console doctrine:schema:validate" ne doit pas renvoyer d'erreur. )
-                    4. Mettre à jour la Base de Données et fais un export de la Base, puis me l'envoyer
-                </td>
-            </tr>
-            <tr>
-                <td>
                     Création de données factices
                 </td>
                 <td>
@@ -43,6 +25,22 @@
                 </td>
                 <td>
                     Création de données factices afin de pouvoir une base remplie de quelques données.
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Connexion à l'application
+                </td>
+                <td>
+                    <strong>
+                        1
+                    </strong>
+                </td>
+                <td>
+                    Pouvoir se connecter et se déconnecter de l'application. <br />
+                    Important : Ne pas passer par FOSUserBundle. <br/>
+                    Simple login / mot de passe pour la connexion <br />
+                    L'utilisateur connecté doit également être authentifié d'un rôle, ainsi que d'une catégorie <br />
                 </td>
             </tr>
             <tr>
