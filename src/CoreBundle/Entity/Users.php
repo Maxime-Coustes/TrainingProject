@@ -25,11 +25,6 @@ class Users
     /**
      * @var string
      */
-    private $password;
-
-    /**
-     * @var string
-     */
     private $articles;
 
     /**
@@ -37,6 +32,22 @@ class Users
      */
     private $categories;
 
+    /**
+     * @var string
+     */
+    private $salt;
+
+
+    /**
+     * @param $salt
+     * @return $this
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
+    }
 
     /**
      * Get id
@@ -96,29 +107,6 @@ class Users
         return $this->mail;
     }
 
-    /**
-     * Set password
-     *
-     * @param string $password
-     *
-     * @return Users
-     */
-    public function setPassword($password)
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * Get password
-     *
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
     /**
      * Constructor
      */

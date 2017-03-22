@@ -15,7 +15,7 @@ CoreBundle\Entity\Users:
         mail:
             type: string
             length: 255
-        password:
+        salt:
             type: string
             length: 255
     lifecycleCallbacks: {  }

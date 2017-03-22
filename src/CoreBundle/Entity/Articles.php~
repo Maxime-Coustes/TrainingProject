@@ -124,4 +124,93 @@ class Articles
     {
         return $this->contenu;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->typeArticle = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set images
+     *
+     * @param \CoreBundle\Entity\Images $images
+     *
+     * @return Articles
+     */
+    public function setImages(\CoreBundle\Entity\Images $images = null)
+    {
+        $this->images = $images;
+
+        return $this;
+    }
+
+    /**
+     * Get images
+     *
+     * @return \CoreBundle\Entity\Images
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * Set users
+     *
+     * @param \CoreBundle\Entity\Users $users
+     *
+     * @return Articles
+     */
+    public function setUsers(\CoreBundle\Entity\Users $users = null)
+    {
+        $this->users = $users;
+
+        return $this;
+    }
+
+    /**
+     * Get users
+     *
+     * @return \CoreBundle\Entity\Users
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * Add typeArticle
+     *
+     * @param \CoreBundle\Entity\typeArticle $typeArticle
+     *
+     * @return Articles
+     */
+    public function addTypeArticle(\CoreBundle\Entity\typeArticle $typeArticle)
+    {
+        $this->typeArticle[] = $typeArticle;
+
+        return $this;
+    }
+
+    /**
+     * Remove typeArticle
+     *
+     * @param \CoreBundle\Entity\typeArticle $typeArticle
+     */
+    public function removeTypeArticle(\CoreBundle\Entity\typeArticle $typeArticle)
+    {
+        $this->typeArticle->removeElement($typeArticle);
+    }
+
+    /**
+     * Get typeArticle
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTypeArticle()
+    {
+        return $this->typeArticle;
+    }
 }

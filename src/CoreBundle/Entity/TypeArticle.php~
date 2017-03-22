@@ -56,4 +56,45 @@ class TypeArticle
     {
         return $this->kindof;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add article
+     *
+     * @param \CoreBundle\Entity\Articles $article
+     *
+     * @return TypeArticle
+     */
+    public function addArticle(\CoreBundle\Entity\Articles $article)
+    {
+        $this->articles[] = $article;
+
+        return $this;
+    }
+
+    /**
+     * Remove article
+     *
+     * @param \CoreBundle\Entity\Articles $article
+     */
+    public function removeArticle(\CoreBundle\Entity\Articles $article)
+    {
+        $this->articles->removeElement($article);
+    }
+
+    /**
+     * Get articles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
 }

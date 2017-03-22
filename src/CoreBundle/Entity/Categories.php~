@@ -115,4 +115,45 @@ class Categories
     {
         return $this->name;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->users = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add user
+     *
+     * @param \CoreBundle\Entity\Users $user
+     *
+     * @return Categories
+     */
+    public function addUser(\CoreBundle\Entity\Users $user)
+    {
+        $this->users[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \CoreBundle\Entity\Users $user
+     */
+    public function removeUser(\CoreBundle\Entity\Users $user)
+    {
+        $this->users->removeElement($user);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
 }

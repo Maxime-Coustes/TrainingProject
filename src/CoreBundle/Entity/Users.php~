@@ -119,4 +119,69 @@ class Users
     {
         return $this->password;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add article
+     *
+     * @param \CoreBundle\Entity\Articles $article
+     *
+     * @return Users
+     */
+    public function addArticle(\CoreBundle\Entity\Articles $article)
+    {
+        $this->articles[] = $article;
+
+        return $this;
+    }
+
+    /**
+     * Remove article
+     *
+     * @param \CoreBundle\Entity\Articles $article
+     */
+    public function removeArticle(\CoreBundle\Entity\Articles $article)
+    {
+        $this->articles->removeElement($article);
+    }
+
+    /**
+     * Get articles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArticles()
+    {
+        return $this->articles;
+    }
+
+    /**
+     * Set categories
+     *
+     * @param \CoreBundle\Entity\Categories $categories
+     *
+     * @return Users
+     */
+    public function setCategories(\CoreBundle\Entity\Categories $categories = null)
+    {
+        $this->categories = $categories;
+
+        return $this;
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \CoreBundle\Entity\Categories
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
 }

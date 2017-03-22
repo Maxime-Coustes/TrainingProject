@@ -88,5 +88,45 @@ class Images
         return $this->nom;
     }
 
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->articleAffilie = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add articleAffilie
+     *
+     * @param \CoreBundle\Entity\Articles $articleAffilie
+     *
+     * @return Images
+     */
+    public function addArticleAffilie(\CoreBundle\Entity\Articles $articleAffilie)
+    {
+        $this->articleAffilie[] = $articleAffilie;
+
+        return $this;
+    }
+
+    /**
+     * Remove articleAffilie
+     *
+     * @param \CoreBundle\Entity\Articles $articleAffilie
+     */
+    public function removeArticleAffilie(\CoreBundle\Entity\Articles $articleAffilie)
+    {
+        $this->articleAffilie->removeElement($articleAffilie);
+    }
+
+    /**
+     * Get articleAffilie
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getArticleAffilie()
+    {
+        return $this->articleAffilie;
+    }
+}
