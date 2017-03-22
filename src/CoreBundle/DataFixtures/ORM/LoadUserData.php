@@ -33,26 +33,25 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     {
         $user = new Users();
         $user->setUsername('admin');
-        $user->setSalt(md5('admin'));//md5 encode et hache le code entre ''
+        $user->setSalt(md5('admin'));//md5 encode et hache le code entre '' plus simple mais moins sûr qu'avec (md5(uniqid()))
 // the 'security.password_encoder' service requires Symfony 2.6 or higher
         $user->setMail('maxime.coustes@fidesio.com');
         $user->setCategories($this->getReference('administrateur'));
         $manager->persist($user);
 
-        /*$user = new Users();
+        $user = new Users();
         $user->setUsername('utilisateur');
-        $encoder = $this->container->get('security.password_encoder');
-        $user->setSalt(md5(uniqid()));
+        $user->setSalt(md5('utilisateur'));
         $user->setMail('maxime.coustes@fidesio.com');
         $user->setCategories($this->getReference('utilisateur'));
         $manager->persist($user);
 
         $user = new Users();
         $user->setUsername('ecrivain');
-        $user->setSalt(md5(uniqid()));
+        $user->setSalt(md5('ecrivain'));
         $user->setMail('maxime.coustes@fidesio.com');
         $user->setCategories($this->getReference('ecrivain'));
-        $manager->persist($user);*/
+        $manager->persist($user);
 
         $manager->flush();
 

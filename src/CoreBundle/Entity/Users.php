@@ -38,6 +38,7 @@ class Users
     private $salt;
 
 
+
     /**
      * @param $salt
      * @return $this
@@ -171,5 +172,15 @@ class Users
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return string
+     */
+    public function getSalt()
+    {
+        return $this->salt;
     }
 }

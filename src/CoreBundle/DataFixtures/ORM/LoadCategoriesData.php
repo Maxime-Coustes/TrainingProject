@@ -12,7 +12,6 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use CoreBundle\Entity\Categories;
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use CoreBundle\Entity\Users;
 
 class LoadCategoriesData extends AbstractFixture implements FixtureInterface
 {

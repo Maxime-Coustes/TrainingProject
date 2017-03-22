@@ -1,6 +1,7 @@
 <?php
 
 namespace CoreBundle\Entity;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Articles
@@ -18,7 +19,7 @@ class Articles
     private $nom;
 
     /**
-     * @var string
+     * @var DateTime
      */
     private $date;
 
@@ -75,13 +76,14 @@ class Articles
     /**
      * Set date
      *
-     * @param string $date
+     * @param DateTime $date
      *
      * @return Articles
      */
     public function setDate($date)
     {
         $this->date = $date;
+        
 
         return $this;
     }
@@ -89,7 +91,7 @@ class Articles
     /**
      * Get date
      *
-     * @return string
+     * @return DateTime
      */
     public function getDate()
     {

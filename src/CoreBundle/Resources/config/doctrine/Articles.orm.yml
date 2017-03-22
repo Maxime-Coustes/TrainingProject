@@ -28,16 +28,16 @@ CoreBundle\Entity\Articles:
             targetEntity: CoreBundle\Entity\Users
             inversedBy: articles
 
+#code en trop car définit logiquement plus haut.
 #            joinColumn:
-#                name: articles_id
-#                referencedColumnName: id
-
+#                name: articles_id    ligne 5
+#                referencedColumnName: id   ligne 6
 
     manyToMany:
         typeArticle:
             targetEntity: CoreBundle\Entity\TypeArticle
             inversedBy: articles
-#            joinTable:
+#            joinTable:    même remarque
 #                name: articles_typeArticles
 #                joinColumns:
 #                    article_id:
