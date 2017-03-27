@@ -15,6 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+
 class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
 
@@ -31,8 +32,10 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
         $article = new Articles();
         $article->setNom('article');
         //$article->setDate($date);
-        $article->setDate(new \DateTime());
+        $article->setDate(new \DateTime());   // l'antislash permet de ne pas avoir à appeler la property directement.
         $article->setContenu('contenu');
+        $article->setUsers($this->getReference('userAdmin'));
+        $article->addTypeArticle($this->getReference('cinema'));
 
         $manager->persist($article);
 
@@ -43,6 +46,6 @@ class LoadArticlesData extends AbstractFixture implements OrderedFixtureInterfac
 
     public function getOrder()
     {
-        return 2; //comment savoir dans quel ordre définir le getOrder ?
+        return 4; //comment savoir dans quel ordre définir le getOrder ?
     }
 }

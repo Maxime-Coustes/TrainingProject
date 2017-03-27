@@ -2,10 +2,11 @@
 
 namespace CoreBundle\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Users
  */
-class Users
+class Users implements UserInterface, \Serializable
 {
     /**
      * @var int
@@ -35,19 +36,24 @@ class Users
     /**
      * @var string
      */
-    private $salt;
-
-
+    private $password;   /* notre password*/
 
     /**
-     * @param $salt
-     * @return $this
+     * @var boolean
      */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
+    private $isActive;
 
-        return $this;
+    /**
+     * Constructor
+     */
+    public function __construct()         /* quand on fait un new user(nouvelle instance de classe), on passe dans le construct qui passe la propriété isActive = true*/
+
+    {
+        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
+
+        $this->isActive = true;
+        // may not be needed, see section on salt below
+        // $this->salt = md5(uniqid(null, true));
     }
 
     /**
@@ -108,13 +114,7 @@ class Users
         return $this->mail;
     }
 
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+
 
     /**
      * Add article
@@ -174,13 +174,89 @@ class Users
         return $this->categories;
     }
 
-    /**
-     * Get salt
-     *
-     * @return string
-     */
+
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+            ) = unserialize($serialized);
+    }
+
     public function getSalt()
     {
-        return $this->salt;
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return Users
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return Users
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
     }
 }

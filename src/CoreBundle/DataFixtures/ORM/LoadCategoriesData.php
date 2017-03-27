@@ -18,7 +18,7 @@ class LoadCategoriesData extends AbstractFixture implements FixtureInterface
 
     public function load(ObjectManager $manager)
     {
-       $categorie = new Categories(); // je crée mon objet
+       $categorie = new Categories(); // je crer mon objet
        $categorie->setName('Utilisateur');
        $manager->persist($categorie);
        $this->addReference('utilisateur', $categorie); //je lui donne une référence propre à chaque categorie

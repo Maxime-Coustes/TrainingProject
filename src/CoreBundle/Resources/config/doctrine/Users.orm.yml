@@ -15,9 +15,11 @@ CoreBundle\Entity\Users:
         mail:
             type: string
             length: 255
-        salt:
+        password:
             type: string
             length: 255
+        isActive:
+            type: boolean
     lifecycleCallbacks: {  }
 
     oneToMany:

@@ -1,3 +1,10 @@
 core:
     resource: "@CoreBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /home
+
+login:
+    path:    /
+    defaults: {_controller: CoreBundle:Security:login }
+
+logout:
+    path:    /logout

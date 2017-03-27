@@ -33,25 +33,39 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     {
         $user = new Users();
         $user->setUsername('admin');
-        $user->setSalt(md5('admin'));//md5 encode et hache le code entre '' plus simple mais moins sûr qu'avec (md5(uniqid()))
-// the 'security.password_encoder' service requires Symfony 2.6 or higher
+
         $user->setMail('maxime.coustes@fidesio.com');
         $user->setCategories($this->getReference('administrateur'));
+        $encoder = $this->container->get('security.password_encoder');
+        $password = $encoder->encodePassword($user, 'admin');
+        $user->setPassword($password);//md5 encode et hache le code entre '' plus simple mais moins sûr qu'avec (md5(uniqid()))
+// the 'security.password_encoder' service requires Symfony 2.6 or higher
+
         $manager->persist($user);
+        $this->addReference('userAdmin',$user);
+
 
         $user = new Users();
         $user->setUsername('utilisateur');
-        $user->setSalt(md5('utilisateur'));
+        $encoder = $this->container->get('security.password_encoder');
+        $password = $encoder->encodePassword($user, 'utilisateur');
+        $user->setPassword($password);
         $user->setMail('maxime.coustes@fidesio.com');
         $user->setCategories($this->getReference('utilisateur'));
+
         $manager->persist($user);
+        $this->addReference('userUtilisateur',$user);
 
         $user = new Users();
         $user->setUsername('ecrivain');
-        $user->setSalt(md5('ecrivain'));
+        $encoder = $this->container->get('security.password_encoder');
+        $password = $encoder->encodePassword($user, 'ecrivain');
+        $user->setPassword($password);
         $user->setMail('maxime.coustes@fidesio.com');
         $user->setCategories($this->getReference('ecrivain'));
         $manager->persist($user);
+        $this->addReference('userEcrivain',$user);
+
 
         $manager->flush();
 
@@ -61,7 +75,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
     {
         // the order in which fixtures will be loaded
         // the lower the number, the sooner that this fixture is loaded
-        return 10;
+        return 2;
     }
 
 }

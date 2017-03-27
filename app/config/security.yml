@@ -3,18 +3,37 @@
 security:
 
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
-    providers:
-        in_memory:
-            memory: ~
+    providers:   #fournisseur    symfony, fournis toi ici ^^
+        My_user_provider:
+            entity:
+                class: CoreBundle:Users
+                property: username
+
+    encoders:
+        CoreBundle\Entity\Users:    #même encodage que dans notre entité   ATTENTION ici users est la class users dans l'entité users
+            algorithm: sha512
+            # si un chemin commence par symfony => direct vendor.
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
 
         main:
             anonymous: ~
+
+            pattern: ^/     # ^/   pour mettre "à la racine" du site
+            http_basic: ~
+
+            provider: My_user_provider
+
+            form_login:
+                login_path: login
+                check_path: login
+                default_target_path: core_homepage    #nom de la route, pas son url
+
+            logout:
+                target:  /
+                path: /logout
+
+
             # activate different ways to authenticate
 
             # http_basic: ~
