@@ -10,4 +10,8 @@ class ForumController extends Controller
     {
         return $this->render('@Core/forum/index.html.twig');
     }
+
+
+
+
 }

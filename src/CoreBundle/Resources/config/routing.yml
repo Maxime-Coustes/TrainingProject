@@ -25,4 +25,8 @@ core_forum_index:
     path: /forum
     defaults: { _controller: CoreBundle:Forum:index }
 
+forum_sport:
+    path: /sport
+    defaults: {_controller: CoreBundle:ForumSport:sport}
+
 

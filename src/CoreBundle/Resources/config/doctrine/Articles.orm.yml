@@ -16,8 +16,7 @@ CoreBundle\Entity\Articles:
             type: datetime
             length: 255
         contenu:
-            type: string
-            length: 255
+            type: text
     lifecycleCallbacks: {  }
 
     manyToOne:
