@@ -3,3 +3,31 @@
 {% block pageTitle %}
     {% include '@Core/pageTitle/pageTitle.html.twig' with {'page' : "Page d'accueil du site"} %}
 {% endblock %}
+
+{% block body %}
+    <table class="table">
+        {% for article in articles %}
+            {#{% if date(article.date) > date('-15days') %}#} {#à faire en back, c'est plus mieux#}
+            <div class="filinfo col-lg-4" style="background-color: lightblue">
+                Voici l'id : {{ article.id }}<br/><br/>
+                Le titre : {{ article.nom }}<br/><br/>
+                Le date de création : {{ article.date|date('d-m-Y') }}<br/><br/>
+                L'auteur : {{ article.users.username }}<br/><br/>
+                Le contenu de l'article : {{ article.contenu|length > 500 ? article.contenu|slice(0, 500) ~ '...' : article.contenu }}<br/> {#limite les caractères à 50 er ajoute les points de suspension#}
+            </div>
+            {#{% endif %}#}
+        {% endfor %}
+
+
+        {#Affichage à droite de la bande avec toutes les catégories enregistrées   catégories => TypeArticles? #}
+
+        {% for typeArticle in typeArticles %}
+            <div class="categories col-lg-6 col-lg-offset-2" style="background-color: lightgreen">
+                <p>{{ typeArticle.kindof }}</p>
+
+
+            </div>
+        {% endfor %}
+
+    </table>
+{% endblock %}

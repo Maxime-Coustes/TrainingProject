@@ -11,7 +11,7 @@
 # -------------------------------------------
 core_homepage:
     path: /
-    defaults: { _controller: CoreBundle:Homepage:index }
+    defaults: { _controller: CoreBundle:Home:index }
 
 # Todolist
 # -------------------------------------------

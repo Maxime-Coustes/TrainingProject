@@ -11,9 +11,9 @@ namespace CoreBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
-class ForumSportController extends Controller
+class HomeController extends Controller
 {
-    public function homepageAction()
+    public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
         $limit = 10;
