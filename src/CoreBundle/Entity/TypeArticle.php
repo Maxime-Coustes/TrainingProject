@@ -22,6 +22,10 @@ class TypeArticle
      */
     private $articles;
 
+    
+    /** @var  string */
+    private $description;
+
 
     /**
      * Get id
@@ -96,5 +100,29 @@ class TypeArticle
     public function getArticles()
     {
         return $this->articles;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return TypeArticle
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }

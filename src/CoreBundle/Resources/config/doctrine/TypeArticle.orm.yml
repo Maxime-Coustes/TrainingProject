@@ -12,6 +12,9 @@ CoreBundle\Entity\TypeArticle:
         kindof:
             type: string
             length: 255
+        description:
+            type: string
+            length: 255
     lifecycleCallbacks: {  }
 
 

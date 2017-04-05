@@ -22,6 +22,10 @@ class TypeArticle
      */
     private $articles;
 
+    
+    /** @var  string */
+    private $description;
+
 
     /**
      * Get id
