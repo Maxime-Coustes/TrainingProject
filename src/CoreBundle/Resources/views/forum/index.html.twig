@@ -11,21 +11,11 @@
         </tr>
         </thead>
         <tbody>
-        {% for i in 0..5 %}
+        {% for typeArticle in typeArticles %}  {# j'appel MES typeArticles #}
             <tr>
                 <td>
-                    <a href={{ path('forum_sport') }}>
-                        Sport
-                    </a>
-                </td>
-                <td>
-                    <a href={{ path('forum_sport') }}>
-                        Ici, on parle de sport !
-                    </a>
-                </td>
-                <td>
-                    <a href="#LienVersLesTopicDeLaCatégorie">
-                        Dernier message posté le : 23/12/2007 à 23:30
+                    <a href={{ "" }}>
+                        {{ typeArticle.kindof }}
                     </a>
                 </td>
             </tr>
