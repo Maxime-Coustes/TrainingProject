@@ -10,11 +10,6 @@ class ForumController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $typeArticles = $em->getRepository('CoreBundle:TypeArticle')->findAll(); //typeArticles (pluriel) peut contenir plusieurs 'typeArticle'
-
         return $this->render('@Core/forum/index.html.twig', array('typeArticles' => $typeArticles));
     }
-
-
-
-
 }

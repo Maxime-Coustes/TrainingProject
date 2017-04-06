@@ -23,7 +23,9 @@ class TypeArticle
     private $articles;
 
     
-    /** @var  string */
+    /**
+     * @var  string
+     */
     private $description;
 
 
