@@ -16,7 +16,7 @@
         <tbody>
             <tr>
                 <td>
-                    Création de données factices
+                    Afficher les blogs dont la date de publication est de moins de 15 jours
                 </td>
                 <td>
                     <strong>
@@ -24,12 +24,14 @@
                     </strong>
                 </td>
                 <td>
-                    Création de données factices afin de pouvoir une base remplie de quelques données.
+                    Dans le controller, récupérer la liste des articles dont la date de publication est de moins de 15 jours. <br />
+                    Créer une méthode dans le Repository de l'entité concernée permettant d'aboutir à ce résultat. <br />
+                    S'assurer que le résultat final et affiché, reste cohérent.
                 </td>
             </tr>
             <tr>
                 <td>
-                    Connexion à l'application
+                    Création d'un article via une commande personnalisée
                 </td>
                 <td>
                     <strong>
@@ -37,24 +39,10 @@
                     </strong>
                 </td>
                 <td>
-                    Pouvoir se connecter et se déconnecter de l'application. <br />
-                    Important : Ne pas passer par FOSUserBundle. <br/>
-                    Simple login / mot de passe pour la connexion <br />
-                    L'utilisateur connecté doit également être authentifié d'un rôle, ainsi que d'une catégorie <br />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Affichage des catégories de forum
-                </td>
-                <td>
-                    <strong>
-                        1
-                    </strong>
-                </td>
-                <td>
-                    Afficher les différentes catégories principales lorsque je clic sur "Forum". <br />
-                    /!\ Gérer le cas ou il n'y a aucune catégorie (Je clic sur "Forum", je n'ai pas de catégorie, je ne peux pas rester sur page blanche...) <br />
+                    Créer une commande personnalisée afin de pouvoir créer un article. <br />
+                    La commande devra demander le nom de l'auteur, le contenu de l'article, et le nom de l'article, ainsi que les types affiliés à l'article. <br />
+                    En fonction des informations rentrées, les relations devront être établies. <br />
+                    Si les relations ne peuvent être établies, précisez lesquelles et redemander l'information concernée à l'utilisateur <br />
                 </td>
             </tr>
             <tr>
