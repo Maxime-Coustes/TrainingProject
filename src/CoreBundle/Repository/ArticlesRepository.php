@@ -10,4 +10,12 @@ namespace CoreBundle\Repository;
  */
 class ArticlesRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getArticlesWithLimitDate(\DateTime $limitDate)
+    {
+        $queryBuilder = $this->createQueryBuilder('articles');
+        $queryBuilder->select('articles')
+                    ->where('articles.date > :limitDate')        // : pour appeler un certain paramètre
+                    ->setParameter('limitDate',$limitDate);      // toto(limitDate) vaut $limitDate et $limitDate équivaut à sa variable dan le controler HomeController
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

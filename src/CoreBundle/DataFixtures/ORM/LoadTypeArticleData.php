@@ -29,16 +29,21 @@ class LoadTypeArticleData extends AbstractFixture implements OrderedFixtureInter
     {
         $typeArticle = new TypeArticle();
         $typeArticle->setKindof('sport');
+        $typeArticle->setDescription('catSport');
         $manager->persist($typeArticle);
         $this->addReference('sport', $typeArticle);
 
         $typeArticle = new TypeArticle();
         $typeArticle->setKindof('musique');
+        $typeArticle->setDescription('catMusique');
+
         $manager->persist($typeArticle);
         $this->addReference('musique', $typeArticle);
 
         $typeArticle = new TypeArticle();
         $typeArticle->setKindof('cinema');
+        $typeArticle->setDescription('catCinema');
+
         $manager->persist($typeArticle);
         $this->addReference('cinema', $typeArticle);
 

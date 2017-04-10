@@ -16,11 +16,9 @@ class HomeController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $limit = 10;
-        $offset = null;
-        $articles = $em->getRepository('CoreBundle:Articles')->findBy(array(), null, $limit, $offset);//limite le l'affichage à 10 articles
         $typeArticles = $em->getRepository('CoreBundle:TypeArticle')->findAll();
-
+        $limitDate = new \DateTime('-15 days');
+        $articles = $em->getRepository('CoreBundle:Articles')->getArticlesWithLimitDate($limitDate);
         return $this->render('@Core/home.html.twig',array('articles' => $articles, 'typeArticles' => $typeArticles));
     }
 
