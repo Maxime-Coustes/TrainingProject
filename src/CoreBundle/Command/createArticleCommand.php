@@ -2,15 +2,26 @@
 
 namespace CoreBundle\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
-class createArticleCommand extends Command
+
+class createArticleCommand extends ContainerAwareCommand
 {
+
+    private $doctrine;
+
+    public function __construct($doctrine) // contient la valeur de l'argument passer lors de la déclaration du service.
+    {
+        parent::__construct();
+        $this->doctrine = $doctrine; // this->doctrine = instance de private $doctrine dans cette class
+    }
+
+
     protected function configure()
     {
         $this->setName('myblog:create:article')
@@ -56,9 +67,30 @@ class createArticleCommand extends Command
         }
         else {
             $this->doYouWantSubscribed($input, $output);//asking user for confirmation      boolean
+
         }
 
     }
+    public function doYouWantSubscribed(InputInterface $input, OutputInterface $output)
+    {
+        $questionType = 'ConfirmationQuestion';
+        $label = 'Voulez-vous vous inscrire sur le site ? ';
+        $defaultValue = true;
+        $isUserWantsSubscribed = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
+
+        if ($isUserWantsSubscribed == true){
+            $this->askUserLogin($input, $output);
+        } else {
+            return $this->closeCommand($output);
+        }
+    }
+
+    public function closeCommand(OutputInterface $output)
+    {
+        $text = 'Nous sommes désolé, mais la publication d\'article n\'est pas possible aux utilisateurs n\'étant pas inscrit sur le site. Au revoir et bonne journée';
+        return $this->writeText($output, $text);
+    }
+
     public function askUserLogin(InputInterface $input, OutputInterface $output)
     {
         $questionType = 'Question';
@@ -83,10 +115,7 @@ class createArticleCommand extends Command
         $label = 'Quel est ton mot de passe ? ';
         $defaultValue = null;
         $userPassword = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue, true);
-
-
-        var_dump($userPassword);die;
-
+        return $this->checkIfUserExists($userPassword, $userLogin, $output, $input);
         //si on trouve un user pour le couple utilisateur/Mdp
             // on affiche Bienvenue... blablabla
         //sinon
@@ -94,10 +123,17 @@ class createArticleCommand extends Command
 
     }
 
+    public function checkIfUserExists($userPassword, $userLogin, $output, $input)
+    {
+        $hash = hash('sha512', $userPassword);
+        $user = $this->doctrine->getRepository('CoreBundle:Users')->findOneBy(['username' => $userLogin , 'password' => $hash]);
+        var_dump($user);die;
+    }
+
     public function checkIfStringContainsSpecialChar($string)
     {
         $isStringCorrect = false;
-        $forbidden = '/[#$%^&*()+=\-\[\]\';,.\/{}|":<>?~\\\\]/';
+        $forbidden = '/[#$%^&*()+=\-\[\]\';,.\/{}|":<>@!?~\\\\]/';
         if(preg_match($forbidden,$string) == 0){
             $isStringCorrect = true;
         }

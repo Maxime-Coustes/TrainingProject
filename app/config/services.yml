@@ -7,3 +7,9 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+     my_command: #j'injecte doctrine à ma class createArticleCommand
+        class: CoreBundle\Command\createArticleCommand
+        arguments: ["@doctrine"]
+        tags:
+            - { name: console.command }  #permet de savoir qu'il s'agit d'une commande.
