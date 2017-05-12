@@ -32,7 +32,8 @@ class createArticleCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->displayHomeMessage($output);
-        $this->checkUserConnexion($input, $output);
+        $userConnected = $this->checkUserConnexion($input, $output);
+        var_dump($userConnected);die;
 
     }
 
@@ -79,7 +80,7 @@ class createArticleCommand extends ContainerAwareCommand
         $isUserWantsSubscribed = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
 
         if ($isUserWantsSubscribed == true){
-            $this->askUserLogin($input, $output);
+            return $this->askUserLogin($input, $output);
         } else {
             return $this->closeCommand($output);
         }
@@ -101,7 +102,7 @@ class createArticleCommand extends ContainerAwareCommand
         $isStringCorrect = $this->checkIfStringContainsSpecialChar($userLogin);
 
         if ($isStringCorrect == true){
-            $this->askUserPassword($output, $input, $userLogin);
+            return $this->askUserPassword($output, $input, $userLogin);
         } else {
             $text = 'Attention !  Le pseudo ' .$userLogin. ' contient un ou plusieurs caractères interdits.';
             $this->writeText($output, $text);
@@ -115,7 +116,7 @@ class createArticleCommand extends ContainerAwareCommand
         $label = 'Quel est ton mot de passe ? ';
         $defaultValue = null;
         $userPassword = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue, true);
-        return $this->checkIfUserExists($userPassword, $userLogin, $output, $input);
+        return $this->checkIfUserExists($userPassword, $userLogin);
         //si on trouve un user pour le couple utilisateur/Mdp
             // on affiche Bienvenue... blablabla
         //sinon
@@ -123,11 +124,10 @@ class createArticleCommand extends ContainerAwareCommand
 
     }
 
-    public function checkIfUserExists($userPassword, $userLogin, $output, $input)
+    public function checkIfUserExists($userPassword, $userLogin)
     {
-        $hash = hash('sha512', $userPassword);
-        $user = $this->doctrine->getRepository('CoreBundle:Users')->findOneBy(['username' => $userLogin , 'password' => $hash]);
-        var_dump($user);die;
+        $user = $this->doctrine->getRepository('CoreBundle:Users')->findOneBy(['username' => $userLogin , 'plainPassword' => $userPassword]);
+        return $user;
     }
 
     public function checkIfStringContainsSpecialChar($string)

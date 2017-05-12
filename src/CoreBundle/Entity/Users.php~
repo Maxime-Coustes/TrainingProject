@@ -42,6 +42,12 @@ class Users implements UserInterface, \Serializable
      * @var boolean
      */
     private $isActive;
+    
+    /** @var  string
+     *
+     */
+    private $plainPassword;
+
 
     /**
      * Constructor

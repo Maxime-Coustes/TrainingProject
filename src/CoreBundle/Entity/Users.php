@@ -42,6 +42,12 @@ class Users implements UserInterface, \Serializable
      * @var boolean
      */
     private $isActive;
+    
+    /** @var  string
+     *
+     */
+    private $plainPassword;
+
 
     /**
      * Constructor
@@ -258,5 +264,29 @@ class Users implements UserInterface, \Serializable
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Set plainPassword
+     *
+     * @param string $plainPassword
+     *
+     * @return Users
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get plainPassword
+     *
+     * @return string
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
     }
 }

@@ -12,6 +12,7 @@ security:
     encoders:
         CoreBundle\Entity\Users:    #même encodage que dans notre entité   ATTENTION ici users est la class users dans l'entité users
             algorithm: sha512
+        Symfony\Component\Security\Core\User\User: sha512
             # si un chemin commence par symfony => direct vendor.
 
     firewalls:

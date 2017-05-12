@@ -20,6 +20,9 @@ CoreBundle\Entity\Users:
             length: 255
         isActive:
             type: boolean
+        plainPassword:
+            type: string
+            lenght: 255
     lifecycleCallbacks: {  }
 
     oneToMany:
