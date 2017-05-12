@@ -2,12 +2,14 @@
 
 namespace CoreBundle\Command;
 
+use Doctrine\Tests\Common\DataFixtures\TestEntity\User;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use CoreBundle\Entity\Users;
 
 
 class createArticleCommand extends ContainerAwareCommand
@@ -29,12 +31,23 @@ class createArticleCommand extends ContainerAwareCommand
             ->setHelp('null');
     }
 
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->displayHomeMessage($output);
+        /**
+         * @var null|Users $userConnected
+         */
         $userConnected = $this->checkUserConnexion($input, $output);
-        var_dump($userConnected);die;
 
+        if ($userConnected){
+            $text = 'Bienvenue ' . $userConnected->getUsername() . ', nous allons passer à la génération de l\'article   :)   .'  ;
+            $this->writeText($output,$text);
+        } else {
+            $text = 'Désolé, nous n\'avons pas trouvé d\'utilisateur avec ce pseudonyme.';
+            $this->writeText($output,$text);
+            return $this->execute($input, $output);
+        }
     }
 
     public function displayHomeMessage(OutputInterface $output)
@@ -80,7 +93,7 @@ class createArticleCommand extends ContainerAwareCommand
         $isUserWantsSubscribed = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
 
         if ($isUserWantsSubscribed == true){
-            return $this->askUserLogin($input, $output);
+            $user = $this->askUserLogin($input, $output, true);
         } else {
             return $this->closeCommand($output);
         }
@@ -92,13 +105,13 @@ class createArticleCommand extends ContainerAwareCommand
         return $this->writeText($output, $text);
     }
 
-    public function askUserLogin(InputInterface $input, OutputInterface $output)
+    public function askUserLogin(InputInterface $input, OutputInterface $output, $subscribe = false)
     {
         $questionType = 'Question';
         $label ='Quel est ton pseudonyme ? ';
         $defaultValue = null;
         $userLogin = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
-        // userLogin est ce que rentre le user pour son username, ilcontient la valeur de retour le la function generateQuestionWithAnswer
+        // userLogin est ce que rentre le user pour son username, il contient la valeur de retour de la function generateQuestionWithAnswer
         $isStringCorrect = $this->checkIfStringContainsSpecialChar($userLogin);
 
         if ($isStringCorrect == true){
@@ -110,7 +123,7 @@ class createArticleCommand extends ContainerAwareCommand
         }
     }
 
-    public function askUserPassword(OutputInterface $output,InputInterface $input,  $userLogin)//asking user for informations
+    public function askUserPassword(OutputInterface $output,InputInterface $input, $userLogin, $subscribe = false )//asking user for informations
     {
         $questionType = 'Question';
         $label = 'Quel est ton mot de passe ? ';
@@ -151,7 +164,7 @@ class createArticleCommand extends ContainerAwareCommand
         $helper = $this->getHelper('question');
         $questionClass = '\Symfony\Component\Console\Question\\'.$questionType; //ici on concatène questionType pour que ça soit dynamique car il en existe 3 types.
         if ($questionType == 'ConfirmationQuestion') {
-            $question = new $questionClass($label,$defaultValue,'/^(y|true|yes)/i');
+            $question = new $questionClass($label,$defaultValue,'/^(y|true|yes|oui)/i');
         } elseif ($questionType == 'Question') {
             $question = new $questionClass($label, $defaultValue);
             if ($isHidden == true) {
