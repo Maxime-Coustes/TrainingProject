@@ -2,7 +2,6 @@
 
 namespace CoreBundle\Command;
 
-use Doctrine\Tests\Common\DataFixtures\TestEntity\User;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -48,6 +47,7 @@ class createArticleCommand extends ContainerAwareCommand
             $this->writeText($output,$text);
             return $this->execute($input, $output);
         }
+        leflfk
     }
 
     public function displayHomeMessage(OutputInterface $output)
