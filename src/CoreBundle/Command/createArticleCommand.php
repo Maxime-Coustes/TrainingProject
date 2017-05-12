@@ -64,10 +64,10 @@ class createArticleCommand extends ContainerAwareCommand
             // On demande à l'utilisateur s'il souhaite s'inscrire: function doYouWantSubscribed
 
         if ($isUserSubscribed == true){
-            $this->askUserLogin($input, $output);//asking user for informations
+            return $this->askUserLogin($input, $output);//asking user for informations
         }
         else {
-            $this->doYouWantSubscribed($input, $output);//asking user for confirmation      boolean
+            return $this->doYouWantSubscribed($input, $output);//asking user for confirmation      boolean
 
         }
 
