@@ -2,6 +2,7 @@
 
 namespace CoreBundle\Command;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -10,13 +11,12 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use CoreBundle\Entity\Users;
 
-
 class createArticleCommand extends ContainerAwareCommand
 {
 
     private $doctrine;
 
-    public function __construct($doctrine) // contient la valeur de l'argument passer lors de la déclaration du service.
+    public function __construct(EntityManager $doctrine) // contient la valeur de l'argument passer lors de la déclaration du service.
     {
         parent::__construct();
         $this->doctrine = $doctrine; // this->doctrine = instance de private $doctrine dans cette class
@@ -36,18 +36,18 @@ class createArticleCommand extends ContainerAwareCommand
         $this->displayHomeMessage($output);
         /**
          * @var null|Users $userConnected
+         * Je vérifie la connexion de l'utilisateur
          */
         $userConnected = $this->checkUserConnexion($input, $output);
 
         if ($userConnected){
-            $text = 'Bienvenue ' . $userConnected->getUsername() . ', nous allons passer à la génération de l\'article   :)   .'  ;
+            $text = 'Bienvenue ' . $userConnected->getUsername() . ', nous allons passer à la génération de l\'article :).';
             $this->writeText($output,$text);
         } else {
             $text = 'Désolé, nous n\'avons pas trouvé d\'utilisateur avec ce pseudonyme.';
             $this->writeText($output,$text);
             return $this->execute($input, $output);
         }
-        leflfk
     }
 
     public function displayHomeMessage(OutputInterface $output)
@@ -67,21 +67,18 @@ class createArticleCommand extends ContainerAwareCommand
         $label = 'Es tu un utilisateur inscrit sur le site ? ' ;
         $defaultValue = true;
         $isUserSubscribed = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
-        //var_dump($isUserSubscribed);
-
-        /******************************* mon code d'aujourd'hui************************************/
-
-        // Si $isUserSUbscribed vaut true
-            // On demande ses identifiants: function login
-        // Sinon
-            // On demande à l'utilisateur s'il souhaite s'inscrire: function doYouWantSubscribed
 
         if ($isUserSubscribed == true){
+            /**
+             * C'est le cas de l'authentification
+             */
             return $this->askUserLogin($input, $output);//asking user for informations
         }
         else {
+            /**
+             * C'est potentiellement le cas de l'inscription
+             */
             return $this->doYouWantSubscribed($input, $output);//asking user for confirmation      boolean
-
         }
 
     }
@@ -93,8 +90,14 @@ class createArticleCommand extends ContainerAwareCommand
         $isUserWantsSubscribed = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
 
         if ($isUserWantsSubscribed == true){
-            $user = $this->askUserLogin($input, $output, true);
+            /**
+             * C'est le cas de l'inscription
+             */
+            return $this->askUserLogin($input, $output, true);
         } else {
+            /**
+             * Fermeture de la commande
+             */
             return $this->closeCommand($output);
         }
     }
@@ -114,7 +117,15 @@ class createArticleCommand extends ContainerAwareCommand
         // userLogin est ce que rentre le user pour son username, il contient la valeur de retour de la function generateQuestionWithAnswer
         $isStringCorrect = $this->checkIfStringContainsSpecialChar($userLogin);
 
-        if ($isStringCorrect == true){
+        if ($subscribe == true && $isStringCorrect == true) {
+            /**
+             * Mode inscription
+             */
+            return $this->askUserEmail($output, $input, $userLogin);
+        } elseif ($subscribe == false && $isStringCorrect == true) {
+            /**
+             * Mode authentification
+             */
             return $this->askUserPassword($output, $input, $userLogin);
         } else {
             $text = 'Attention !  Le pseudo ' .$userLogin. ' contient un ou plusieurs caractères interdits.';
@@ -123,23 +134,79 @@ class createArticleCommand extends ContainerAwareCommand
         }
     }
 
-    public function askUserPassword(OutputInterface $output,InputInterface $input, $userLogin, $subscribe = false )//asking user for informations
+    /**
+     * @param OutputInterface $output
+     * @param InputInterface $input
+     * @param $userLogin
+     * @return Users|null|object
+     */
+    public function askUserEmail(OutputInterface $output, InputInterface $input, $userLogin)
+    {
+        $questionType = 'Question';
+        $label ='Quel est ton adresse e-mail ?';
+        $defaultValue = null;
+        $userEmail = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
+
+        return $this->askUserPassword($output, $input, $userLogin, true, $userEmail);
+    }
+
+    public function askUserPassword(OutputInterface $output,InputInterface $input, $userLogin, $subscribe = false, $userEmail = '')//asking user for informations
     {
         $questionType = 'Question';
         $label = 'Quel est ton mot de passe ? ';
         $defaultValue = null;
         $userPassword = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue, true);
-        return $this->checkIfUserExists($userPassword, $userLogin);
-        //si on trouve un user pour le couple utilisateur/Mdp
-            // on affiche Bienvenue... blablabla
-        //sinon
-            // "nous n'avons pas trouvé d'user pour cet id" et retour à quel est ton pseudonyme?
 
+        if ($subscribe == true) {
+            /**
+             * Mode inscription
+             */
+            return $this->checkIfUserExists($userPassword, $userLogin, true, $userEmail, $output);
+        } else {
+            /**
+             * Mode authentification
+             */
+            return $this->checkIfUserExists($userPassword, $userLogin);
+        }
     }
 
-    public function checkIfUserExists($userPassword, $userLogin)
+    public function checkIfUserExists($userPassword, $userLogin, $subscribe = false, $userEmail = '', $output = null)
     {
-        $user = $this->doctrine->getRepository('CoreBundle:Users')->findOneBy(['username' => $userLogin , 'plainPassword' => $userPassword]);
+        $user = $this->doctrine->getRepository('CoreBundle:Users')->findOneBy(
+            [
+                'username' => $userLogin ,
+                'plainPassword' => $userPassword
+            ]
+        );
+
+        if ($subscribe == true && $user == null) {
+            $message = 'Création de l\'utilisateur en cours. Veuillez patienter ...';
+            $this->writeText($output, $message);
+
+            $category = $this->doctrine->getRepository('CoreBundle:Categories')->findOneBy(
+                array(
+                    'name' => 'Ecrivain'
+                )
+            );
+
+            $passwordEncoder = $this->getContainer()->get('security.password_encoder');
+            $user = new Users();
+            $passwordEncoded = $passwordEncoder->encodePassword($user, $userPassword);
+
+            $user->setMail($userEmail)
+                ->setPlainPassword($userPassword)
+                ->setUsername($userLogin)
+                ->setIsActive(true)
+                ->setCategories($category)
+                ->setPassword($passwordEncoded);
+
+            $this->doctrine->persist($user);
+            $this->doctrine->flush();
+
+            $message = 'Création de l\'utilisateur terminée.';
+            $this->writeText($output, $message);
+        }
+
         return $user;
     }
 

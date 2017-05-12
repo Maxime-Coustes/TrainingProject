@@ -10,6 +10,6 @@ services:
 
      my_command: #j'injecte doctrine à ma class createArticleCommand
         class: CoreBundle\Command\createArticleCommand
-        arguments: ["@doctrine"]
+        arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: console.command }  #permet de savoir qu'il s'agit d'une commande.
