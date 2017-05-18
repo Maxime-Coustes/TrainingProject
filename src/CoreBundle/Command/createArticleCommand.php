@@ -142,6 +142,11 @@ class createArticleCommand extends ContainerAwareCommand
      */
     public function askUserEmail(OutputInterface $output, InputInterface $input, $userLogin)
     {
+        /**TODO regex email and condition if forbidden carac
+         *
+         * $questionType
+         *
+         */
         $questionType = 'Question';
         $label ='Quel est ton adresse e-mail ?';
         $defaultValue = null;
