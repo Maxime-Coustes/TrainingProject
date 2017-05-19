@@ -11,6 +11,11 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use CoreBundle\Entity\Users;
 
+
+/**
+ * Class createArticleCommand
+ * @package CoreBundle\Command
+ */
 class createArticleCommand extends ContainerAwareCommand
 {
     use UserCommandTrait;
@@ -48,6 +53,8 @@ class createArticleCommand extends ContainerAwareCommand
             $this->writeText($output,$text);
             return $this->execute($input, $output);
         }
+
+        $this->createArticle($userConnected, $output, $input);
     }
 
     /**
@@ -97,29 +104,47 @@ class createArticleCommand extends ContainerAwareCommand
 
         return $helper->ask($input,$output,$question);
     }
+
     /**
-     * @var Question ChoiceQuestion
+     * Fonction principale permettant de créer un article
+     *
+     * @param Users $user
      * @param OutputInterface $output
      * @param InputInterface $input
+     *
+     */
+    public function createArticle(Users $user, OutputInterface $output, InputInterface $input)
+    {
+        $title = $this->generateTitle($input, $output);
+        $content = $this->generateArticleContent($input, $output);
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param InputInterface $input
+     *
+     * @return string
      */
     public function generateTitle(InputInterface $input, OutputInterface $output)
     {
         $questionType = 'Question';
-        $label ='Quel sera le titre de l\'article ?';
+        $label = 'Quel sera le titre de l\'article ?';
         $defaultValue = null;
-        $output->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
+        $title = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
 
-        if ($output!== null){
-
-            $message = 'Création du titre terminée.' ;
+        if ($title !== null){
+            return $title;
+        } else {
+            $message = 'Veuillez rentrer un titre.';
             $this->writeText($output, $message);
 
-            return $this->generateArticleContent();
+            return $this->generateTitle($input, $output);
         }
     }
 
     /**
-     * @var Question ChoiceQuestion
+     * Fonction permettant de définir
+     *
      * @param OutputInterface $output
      * @param InputInterface $input
      */
@@ -130,13 +155,13 @@ class createArticleCommand extends ContainerAwareCommand
         $defaultValue = null;
         $content = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
 
-        if ($content!== null){
-
-            $message = 'Création de l\'article terminée!';
+        if ($content != null){
+            return $content;
+        } else {
+            $message = 'Veuillez insérer un contenu non vide.';
             $this->writeText($output, $message);
 
-            $text = 'Le titre de ton artile est : ' . $this->generateTitle($output) ', et le contenu de ton article est : ' . $content ;
-            return $this->displayHomeMessage($output, $text);
+            return $this->generateArticleContent($input, $output);
         }
     }
 }
