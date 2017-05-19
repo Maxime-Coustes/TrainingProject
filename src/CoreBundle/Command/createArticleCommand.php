@@ -117,7 +117,24 @@ class createArticleCommand extends ContainerAwareCommand
     {
         $title = $this->generateTitle($input, $output);
         $content = $this->generateArticleContent($input, $output);
+        $this->displayArticleDetails($output, $title, $content);
     }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @param string $title    là je peux la jouer verbosement
+     * @param string $content
+     */
+    public function displayArticleDetails(OutputInterface $output, $title, $content)
+    {
+        $textTitle = "\n \n Le titre de votre article est donc : " .$title ;
+        $this->writeText($output, $textTitle);
+
+        $textContent = "\n \n et son contenu est le suivant : \n " . $content ;
+        $this->writeText($output, $textContent);
+    }
+
 
     /**
      * @param OutputInterface $output
@@ -128,7 +145,7 @@ class createArticleCommand extends ContainerAwareCommand
     public function generateTitle(InputInterface $input, OutputInterface $output)
     {
         $questionType = 'Question';
-        $label = 'Quel sera le titre de l\'article ?';
+        $label = "Quel sera le titre de l'article ? \n";
         $defaultValue = null;
         $title = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
 
@@ -151,7 +168,7 @@ class createArticleCommand extends ContainerAwareCommand
     public function generateArticleContent(InputInterface $input, OutputInterface $output)
     {
         $questionType = 'Question';
-        $label ='Quel sera le contenu de l\'article ?';
+        $label ="Quel sera le contenu de l'article ? \n";
         $defaultValue = null;
         $content = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
 
