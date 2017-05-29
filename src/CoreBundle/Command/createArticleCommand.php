@@ -128,23 +128,25 @@ class createArticleCommand extends ContainerAwareCommand
             $this->displayArticleDetails($output, $title, $content);
             $edit = $this->editMode($input, $output);
         }
-
         $this->PersistArticleInDataBase($output, $title, $content, $user);
+
+        $newAsk = $this->askUserForNewArticleCreation($input, $output);
+        if ($newAsk == true){
+            return $this->createArticle($user, $output, $input);
+        } else {
+            $text = 'Merci de votre visite, à très bientôt !';
+            $this->writeText($output, $text);
+        }
+        exit();
     }
 
     public function askUserForNewArticleCreation(InputInterface $input, OutputInterface $output)
     {
-        $questionType = 'Confirmation Question';
+        $questionType = 'ConfirmationQuestion';
         $label = 'Souhaitez vous créer un nouvel article ? ';
-        $this->writeText($output, $label);
-
-        if ($questionType == true){
-            $this->createArticle($output, $input);
-        } else {
-            $label = ' Merci de votre visite, à bientôt !';
-            $this->writeText($output, $label);
-        }
-        
+        $defaultValue = false;
+        $answer = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
+        return $answer;
     }
 
     public function PersistArticleInDataBase(OutputInterface $output, $title, $content, Users $user)
