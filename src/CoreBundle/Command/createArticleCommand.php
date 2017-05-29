@@ -2,6 +2,7 @@
 
 namespace CoreBundle\Command;
 
+use CoreBundle\Entity\Articles;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,6 +17,7 @@ use CoreBundle\Entity\Users;
  * Class createArticleCommand
  * @package CoreBundle\Command
  */
+// ceci est un Service ^^
 class createArticleCommand extends ContainerAwareCommand
 {
     use UserCommandTrait;
@@ -118,6 +120,49 @@ class createArticleCommand extends ContainerAwareCommand
         $title = $this->generateTitle($input, $output);
         $content = $this->generateArticleContent($input, $output);
         $this->displayArticleDetails($output, $title, $content);
+        $edit = $this->editMode($input, $output);
+
+        while ($edit == true){
+            $title = $this->generateTitle($input, $output, $title);
+            $content = $this->generateArticleContent($input, $output, $content);
+            $this->displayArticleDetails($output, $title, $content);
+            $edit = $this->editMode($input, $output);
+        }
+
+        $this->PersistArticleInDataBase($output, $title, $content, $user);
+    }
+
+    public function askUserForNewArticleCreation(InputInterface $input, OutputInterface $output)
+    {
+        $questionType = 'Confirmation Question';
+        $label = 'Souhaitez vous créer un nouvel article ? ';
+        $this->writeText($output, $label);
+
+        if ($questionType == true){
+            $this->createArticle($output, $input);
+        } else {
+            $label = ' Merci de votre visite, à bientôt !';
+            $this->writeText($output, $label);
+        }
+        
+    }
+
+    public function PersistArticleInDataBase(OutputInterface $output, $title, $content, Users $user)
+    {
+        $text = 'Génération de l\'article en cours...';
+        $this->writeText($output, $text);
+
+        $article = new Articles();
+        $article->setNom($title)
+                ->setContenu($content)
+                ->setUsers($user)
+                ->setDate(new \DateTime('now'));
+
+        $this->doctrine->persist($article);
+        $this->doctrine->flush();
+
+        $text = ' Génération de l\'article terminé ! ';
+        $this->writeText($output, $text);
     }
 
     /**
@@ -142,11 +187,12 @@ class createArticleCommand extends ContainerAwareCommand
      *
      * @return string
      */
-    public function generateTitle(InputInterface $input, OutputInterface $output)
+    // à la première éxécution, $title = '', ensuite il prend la valeur de $title
+    public function generateTitle(InputInterface $input, OutputInterface $output, $title = '')
     {
         $questionType = 'Question';
-        $label = "Quel sera le titre de l'article ? \n";
-        $defaultValue = null;
+        $label = "Quel sera le titre de l'article ? [".  $title ."] \n" ;
+        $defaultValue = $title;
         $title = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
 
         if ($title !== null){
@@ -165,10 +211,10 @@ class createArticleCommand extends ContainerAwareCommand
      * @param OutputInterface $output
      * @param InputInterface $input
      */
-    public function generateArticleContent(InputInterface $input, OutputInterface $output)
+    public function generateArticleContent(InputInterface $input, OutputInterface $output, $content = '')
     {
         $questionType = 'Question';
-        $label ="Quel sera le contenu de l'article ? \n";
+        $label ="Quel sera le contenu de l'article ? [ ". $content . "] \n";
         $defaultValue = null;
         $content = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
 
@@ -180,6 +226,27 @@ class createArticleCommand extends ContainerAwareCommand
 
             return $this->generateArticleContent($input, $output);
         }
+
+
     }
+
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return mixed
+     */
+    public function editMode(InputInterface $input, OutputInterface $output)
+    {
+        $questionType = 'ConfirmationQuestion';
+        $label = 'Voulez vous modifier le contenu de votre article ? ';
+        $defaultValue = false;
+        $edit = $this->generateQuestionWithAnswer($output, $input, $questionType, $label, $defaultValue);
+
+        return $edit;
+
+
+
+    }
+
 }
 
